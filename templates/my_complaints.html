@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Complaints</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin-left: 12cm;
+    }
+  
+    h2 {
+      text-align: center;
+    }
+  
+    .requisition {
+      display: flex;
+      margin-top: 20px;
+    }
+  
+    .requisition h3 {
+      width: 200px;
+    }
+  
+    .requisition table {
+      width: 50%;
+      border-collapse: collapse;
+      margin-left: 10cm;
+    }
+  
+    .requisition th, .requisition td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    .requisition th {
+      background-color: #f2f2f2;
+    }
+  
+    .requisition tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  {% include 'customer.html' %}
+  {% block page_content %}
+  <div class="container">
+    <h2 class="text-center">My Complaints</h2>
+    {% for complaint in complaints %}
+    <div class="requisition">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Complaint ID:</th>
+            <td>{{ complaint['id'] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Name:</th>
+            <td>{{ complaint['name'] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Date:</th>
+            <td>{{ complaint['date'] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Complaint:</th>
+            <td>{{ complaint['complaint'] }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Remarks:</th>
+            <td>{{ complaint['remarks'] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+  </div>
+  {% endblock %}
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complaints</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  
+    h2 {
+      text-align: center;
+    }
+  
+    form {
+      width: 400px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      resize: vertical;
+    }
+  
+    textarea {
+      height: 100px;
+    }
+  
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  {% include 'customer.html' %}
+    {% block page_content %}
+  <h2>Submit Complaint</h2>
+  <form method="POST" action="{{ url_for('complaint') }}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <br>
+    <label for="complaint">Complaint:</label>
+    <textarea id="complaint" name="complaint" required></textarea>
+    <br>
+    <label for="remarks">Remarks:</label>
+    <textarea id="remarks" name="remarks" required></textarea>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+</body>
+</html>

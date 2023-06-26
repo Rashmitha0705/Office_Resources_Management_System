@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resource view</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      form,h2{
+        max-width:7cm;
+        margin-left: 12cm;
+      }
+      body{
+   margin-left: 12cm;
+}
+
+  table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-left: 5cm;
+  margin-top: 4px;
+  }
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  border: #3e8e41;
+  border-radius: 1cm;
+  height: 1cm;
+  width: 3cm;
+}
+
+.btn-primary:hover {
+  background-color: #3e8e41;
+}
+
+.select2-container {
+  width: 100% !important;
+  height: 2cm;
+}
+
+.select2-selection__rendered {
+  padding: 0.375rem 0.75rem;
+}
+
+.select2-selection__arrow {
+  height: calc(1.5em + 0.75rem + 2px);
+}
+
+.select2-selection__arrow b {
+  display: none;
+}
+
+.select2-selection__arrow:after {
+  content: '\25BC';
+  display: inline-block;
+  font-size: 0.5em;
+  margin-left: 5px;
+}
+
+.select2-container--open .select2-selection__arrow:after {
+  content: '\25B2';
+}
+  
+    </style>
+    
+</head>
+
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+       <div class="container">
+           <h2>View Resources</h2>
+           <form method="post" action="{{ url_for('view') }}">
+               <div class="form-group">
+                   <label for="resource_type">Resource Type:</label>
+                   <select class="form-control" id="resource_type" name="resource_type">
+                       {% for resource_type in resource_types %}
+                           <option value="{{ resource_type[0] }}" {% if selected_resource_type == resource_type[0] %}selected{% endif %}>{{ resource_type[0] }}</option>
+                       {% endfor %}
+                   </select>
+               </div>
+               <div class="form-group">
+                   <label for="floor">Floor:</label>
+                   <select class="form-control" id="floor" name="floor">
+                       <option value="All" {% if selected_floor == "All" %}selected{% endif %}>All</option>
+                       {% for floor in floors %}
+                           <option value="{{ floor[0] }}" {% if selected_floor == floor[0] %}selected{% endif %}>{{ floor[0] }}</option>
+                       {% endfor %}
+                   </select>
+               </div>
+               <button type="submit" class="btn btn-primary">Filter</button>
+           </form>
+
+           {% if data %}
+               <table class="table">
+                   <thead>
+                       <tr>
+                           <th>Resource Type</th>
+                           <th>Floor Number</th>
+                           <th>Room No</th>
+                           <th>Total Quantity in Room</th>
+                           <th>Total Quantity in Floor</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       {% for row in data %}
+                           <tr>
+                               {% if loop.first %}
+                                   <td rowspan="{{ data|length }}">{{ row[0] }}</td>
+                               {% endif %}
+                               <td>{{ row[1] }}</td>
+                               <td>{{ row[2] }}</td>
+                               <td>{{ row[3] }}</td>
+                               {% if loop.first %}
+                                   <td rowspan="{{ data|length }}">{{ row[4] }}</td>
+                               {% endif %}
+                           </tr>
+                       {% endfor %}
+                   </tbody>
+               </table>
+           {% endif %}
+       </div>
+      
+    {% endblock %}
+    
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

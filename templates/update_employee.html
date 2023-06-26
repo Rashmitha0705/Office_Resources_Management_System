@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Update Employee</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h3 {
+            margin-left: 10cm;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <br>
+    <h3><b>Update Employee Details</b></h3>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="/update_employee/{{ employee.id }}" method="POST" class="mt-5">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ employee.name }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ employee.email }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ employee.address }}" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="date_of_joining">Date of Joining:</label>
+                            <input type="date" class="form-control" id="date_of_joining" name="date_of_joining" value="{{ employee.date_of_joining }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="department_id">Department:</label>
+                            <select class="form-control" id="department_id" name="department_id" required>
+                                {% for department in departments %}
+                                <option value="{{ department.id }}"
+                                    {% if department.id == employee.department_id %} selected {% endif %}>
+                                    {{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="designation">Designation:</label>
+                            <input type="text" class="form-control" id="designation" name="designation" value="{{ employee.designation }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="skills">Skills:</label>
+                            <input type="text" class="form-control" id="skills" name="skills" value="{{ employee.skills }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projects">Projects:</label><br>
+                        {% for project in projects %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="project_{{ project.id }}" name="projects" value="{{ project.id }}"
+                                {% if project in employee.projects %} checked {% endif %}>
+                            <label class="form-check-label" for="project_{{ project.id }}">{{ project.project_name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary" onclick="return confirmSuccess()">Update Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function confirmSuccess() {
+            return confirm("Employee details updated successfully");
+        }
+    </script>
+</body>
+
+</html>

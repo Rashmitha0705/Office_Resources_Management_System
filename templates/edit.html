@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        body, form, h3 {
+            margin-left: 12cm;
+        }
+
+        .form-group.inline {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group.inline label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <div class="container">
+        <h3>Edit Project</h3>
+
+        <form action="/edit/{{ project.id }}" method="POST">
+            <div class="form-group">
+                <label for="project_name">Project Name:</label>
+                <input type="text" id="project_name" name="project_name" value="{{ project.project_name }}" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="objectives">Objectives:</label>
+                <textarea id="objectives" name="objectives" required class="form-control">{{ project.objectives }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="start_time">Start Time:</label>
+                <input type="text" id="start_time" name="start_time" value="{{ project.start_time }}" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="deadlines">Deadlines:</label>
+                <input type="text" id="deadlines" name="deadlines" value="{{ project.deadlines }}" required class="form-control">
+            </div>
+
+            <div class="form-group inline">
+                <label for="equipment_resources">Equipment Resources:</label>
+                <input type="text" id="equipment_resources" name="equipment_resources" value="{{ project.equipment_resources }}" required class="form-control">
+            </div>
+
+            <div class="form-group inline">
+                <label for="software_resources">Software Resources:</label>
+                <input type="text" id="software_resources" name="software_resources" value="{{ project.software_resources }}" required class="form-control">
+            </div>
+
+            <div class="form-group inline">
+                <label for="skill_requirements">Skill Requirements:</label>
+                <input type="text" id="skill_requirements" name="skill_requirements" value="{{ project.skill_requirements }}" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget" name="budget" value="{{ project.budget }}" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" onclick="return confirmSuccess()" class="btn btn-primary">Update Project</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Initialize datepicker for start and end date inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#start_time", {
+                enableTime: false,
+                dateFormat: "Y-m-d"
+            });
+            flatpickr("#deadlines", {
+                enableTime: false,
+                dateFormat: "Y-m-d"
+            });
+        });
+
+        function confirmSuccess() {
+            return confirm("Project updated successfully");
+        }
+    </script>
+
+    {% endblock %}
+</body>
+</html>

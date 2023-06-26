@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Office Resource Request</title>
+</head>
+<body>
+    <h1>Office Resource Request</h1>
+    <form method="POST" action="/resource_request">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="resource_id">Resource ID:</label>
+        <input type="text" id="resource_id" name="resource_id" required><br><br>
+        
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required><br><br>
+        
+        <label for="project">Project:</label>
+        <input type="text" id="project" name="project" required><br><br>
+        
+        <label for="required_date">Required Date:</label>
+        <input type="date" id="required_date" name="required_date" required><br><br>
+        
+        <label for="return_date">Return Date:</label>
+        <input type="date" id="return_date" name="return_date" required><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

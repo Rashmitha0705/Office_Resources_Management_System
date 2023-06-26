@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add New Team</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body,form {
+            font-family: sans-serif;
+            margin-left: 14cm;
+        }
+        
+        h3 {
+            text-align: center;
+          
+        }
+        
+        form {
+            margin: 0 auto;
+            width: 400px;
+            margin-top: 2cm;
+            margin-left: 5cm;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                
+                {% if message %}
+                <p>{{ message }}</p>
+                {% endif %}
+                <form method="POST" action="/add_department">
+                    <h3 class="text-center">Add new Team</h3>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manager">Manager:</label>
+                        <input type="text" class="form-control" name="manager" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return confirmSuccess()">Add Department</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function confirmSuccess() {
+            return confirm("Department added successfully");
+        }
+    </script>
+</body>
+
+</html>

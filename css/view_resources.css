@@ -1,0 +1,75 @@
+body{
+   margin-left: 12cm;
+}
+
+  table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.form-group {
+  margin-bottom: 15px;
+ 
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  border:#3e8e41;
+  border-radius: 1cm;
+  height: 1cm;
+  width:3cm;
+}
+
+.btn-primary:hover {
+  background-color: #3e8e41;
+}
+
+.select2-container {
+  width: 100% !important;
+  height: 2cm;
+}
+
+.select2-selection__rendered {
+  padding: 0.375rem 0.75rem;
+}
+
+.select2-selection__arrow {
+  height: calc(1.5em + 0.75rem + 2px);
+}
+
+.select2-selection__arrow b {
+  display: none;
+}
+
+.select2-selection__arrow:after {
+
+  content: '\25BC';
+  display: inline-block;
+  font-size: 0.5em;
+  margin-left: 5px;
+}
+
+.select2-container--open .select2-selection__arrow:after {
+  content: '\25B2';
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projects</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.startbootstrap.com/sb-admin-2/4.1.4/css/sb-admin-2.min.css">
+    <script>
+        function confirmDelete() {
+            return confirm("Do you want to delete the project?");
+        }
+    </script>
+    <style>
+        /* Hide Table Column */
+        td:first-child,
+        th:first-child {
+            display: none;
+        }
+        h3{
+            text-align: center;
+            margin-left: 3cm;
+        }
+    </style>
+</head>
+<br>
+<body id="page-top">
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div class="container-fluid">
+                    <h3 class="h3 mb-2 text-gray-800"><b>Manage_Project</b></h3>
+                    <br>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            <button class="btn btn-primary"><a href="/add" class="text-white">Add Project</a></button>
+                            <button class="btn btn-primary"><a href="/admin_dashboard" class="text-white">Admin Dashboard</a></button>
+                        </div>
+                        <form action="/search" method="POST" class="form-inline">
+                            <div class="input-group">
+                                <input type="text" name="search_query" class="form-control" placeholder="Search project...">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project Name</th>
+                                    <th>Start Time</th>
+                                    <th>Deadlines</th>
+                                    <th>Equipment Resources</th>
+                                    <th>Software Resources</th>
+                                    <th>Skill Requirements</th>
+                                    <th>Budget</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for project in projects %}
+                                <tr>
+                                    <td>{{ project.id }}</td>
+                                    <td>{{ project.project_name }}</td>
+                                    <td>{{ project.start_time }}</td>
+                                    <td>{{ project.deadlines }}</td>
+                                    <td>{{ project.equipment_resources }}</td>
+                                    <td>{{ project.software_resources }}</td>
+                                    <td>{{ project.skill_requirements }}</td>
+                                    <td>{{ project.budget }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-primary btn-sm"><a href="/edit/{{ project.id }}" class="text-white">Edit</a></button>
+                                            <button class="btn btn-danger btn-sm" onclick="return confirmDelete()"><a href="/delete/{{ project.id }}" class="text-white">Delete</a></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.startbootstrap.com/sb-admin-2/4.1.4/js/sb-admin-2.min.js"></script>
+</body>
+</html>

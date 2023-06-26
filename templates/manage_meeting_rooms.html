@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Meeting Rooms</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 2rem;
+        }
+        
+        h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-left: 4cm;
+        }
+        
+        .form-inline {
+            margin-bottom: 2rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        
+        .alert {
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            padding: 0.75rem;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        button[type="submit"] {
+            border-radius: 0.25rem;
+        }
+        #btn{
+          margin-left: 1cm;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3><b>Manage Meeting Rooms</b></h3>
+       
+        <a href="/admin_dashboard" class="btn btn-primary mb-3">Dashboard</a>
+       
+        <!-- Filter options -->
+        <form class="form-inline mb-3">
+            <div class="form-group mr-3">
+                <label for="month">Filter by Month:</label>
+                <select name="month" id="month" class="form-control">
+                    <option value="">All</option>
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="room_number">Filter by Room Number:</label>
+                <select name="room_number" id="room_number" class="form-control">
+                    <option value="">All</option>
+                    <option value="Room 1">Room 1</option>
+                    <option value="Room 2">Room 2</option>
+                    <option value="Room 3">Room 3</option>
+                    <option value="Room 4">Room 4</option>
+                    <option value="Room 5">Room 5</option>
+                    <option value="Room 6">Room 6</option>
+                    <option value="Room 7">Room 7</option>
+                </select>
+            </div>
+            <button id="btn" type="submit" class="btn btn-primary">Filter</button><span></span>
+            <a id="btn" style="background-color:forestgreen"; href="/create_event" class="btn btn-primary ">Create Event</a>
+        </form>
+        
+        <div id="alert-messages">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert {% if 'error' in messages %}alert-error{% else %}alert-success{% endif %}">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+        
+        <!-- Meeting room data table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Title</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_event', event_id=row[0]) }}" class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="delete" value="{{ row[0] }}">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this meeting?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

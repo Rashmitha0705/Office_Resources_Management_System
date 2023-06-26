@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resource Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            animation: fadeIn 1s;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            animation: slideInFromRight 1s;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .update-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .scheduled {
+            color: #f44336;
+        }
+
+        .in-progress {
+            color: #ffc107;
+        }
+
+        .completed {
+            color: #4caf50;
+        }
+
+        .today {
+            background-color: #ffeb3b;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="fadeIn">View Resources</h2>
+        <div class="text-center">
+            <a href="/admin_dashboard" class="btn btn-primary mb-3">Dashboard</a>
+            <a href="/index_resources" class="btn btn-success mb-3">Add New Resource</a>
+        </div>
+        <table>
+            <tr>
+                <th>Resource Type</th>
+                <th>Floor</th>
+                <th>Quantity</th>
+                <th>Availability</th>
+                <th>Condition</th>
+                <th>Maintenance History</th>
+                <th>Last Maintenance Date</th>
+                <th>Next Maintenance Date</th>
+                <th>Total Usage</th>
+                <th>Actions</th>
+            </tr>
+            {% for resource_type, details in resource_details.items() %}
+            {% set details_len = details | length %}
+            {% for i in range(details_len) %}
+            <tr>
+                {% if i == 0 %}
+                <td rowspan="{{ details_len }}">{{ resource_type }}</td>
+                {% endif %}
+                {% set detail = details[i] %}
+                <td>{{ detail[2] }}</td>
+                <td>{{ detail[4] }}</td>
+                <td>{{ detail[5] }}</td>
+                <td>{{ detail[6] }}</td>
+                <td class="{% if detail[7] == 'Scheduled' %}scheduled{% elif detail[7] == 'In Progress' %}in-progress{% elif detail[7] == 'Completed' %}completed{% endif %}">{{ detail[7] }}</td>
+                <td>{{ detail[8] }}</td>
+                <td {% if detail[9] == today %}class="today"{% endif %}>{{ detail[9] }}</td>
+                <td>{{ detail[10] }}</td>
+                <td><a href="/update_resource/{{ detail[0] }}" class="update-link">Update</a></td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+</body>
+<script>
+  
+</script>
+
+</html>

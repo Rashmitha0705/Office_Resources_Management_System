@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solved Requisitions</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Solved Requisitions</h1>
+        <br>
+        {% for requisition in requisitions %}
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <td>{{ requisition['id'] }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ requisition['name'] }}</td>
+            </tr>
+            <tr>
+                <th>Need Date</th>
+                <td>{{ requisition['need_date'] }}</td>
+            </tr>
+            <tr>
+                <th>Return Date</th>
+                <td>{{ requisition['return_date'] }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ requisition['description'] }}</td>
+            </tr>
+            <tr>
+                <th>Resources</th>
+                <td>{{ requisition['resources'] }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ requisition['quantity'] }}</td>
+            </tr>
+            <tr>
+                <th>Project Name</th>
+                <td>{{ requisition['project_name'] }}</td>
+            </tr>
+            <tr>
+                <th>Skills</th>
+                <td>{{ requisition['skills'] }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ requisition['status'] }}</td>
+            </tr>
+        </table>
+        <br>
+        {% endfor %}
+    </div>
+</body>
+</html>

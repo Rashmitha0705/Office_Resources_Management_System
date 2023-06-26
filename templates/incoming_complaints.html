@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incoming Complaints</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .complaint-container {
+            margin: 2em auto;
+            margin-left: 12cm;
+            max-width: 40em;
+        }
+        .pagination-btn {
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <div class="complaint-container">
+        <h3>Incoming Complaints</h3>
+        <br>
+
+        <div id="complaints">
+            {% for complaint in complaints %}
+            <div class="card mb-4">
+                <h5 class="card-header">Complaint ID: {{ complaint[0] }}</h5>
+                <div class="card-body">
+                    <p>Employee ID:       {{ complaint[1] }}</p>
+                    <p>Complaint Details: {{ complaint[2] }}</p>
+                    <p>Complaint:         {{ complaint[3] }}</p>
+                </div>
+                <div class="card-footer">
+                    <form action="{{ url_for('solve_complaint', complaint_id=complaint[0]) }}" method="POST">
+                        <button type="submit" onclick="return confirm('Complaint Solved?')" class="btn btn-primary">Solve</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary pagination-btn" id="prevBtn" onclick="showPrevious()">&lt;</button>
+            <button class="btn btn-primary pagination-btn" id="nextBtn" onclick="showNext()">&gt;</button>
+        </div>
+    </div>
+    {% endblock %}
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        var complaints = document.getElementsByClassName("card");
+        var complaintIndex = 0;
+
+        function showComplaint(index) {
+            for (var i = 0; i < complaints.length; i++) {
+                if (i === index) {
+                    complaints[i].style.display = "block";
+                } else {
+                    complaints[i].style.display = "none";
+                }
+            }
+        }
+
+        function showNext() {
+            if (complaintIndex < complaints.length - 1) {
+                complaintIndex++;
+                showComplaint(complaintIndex);
+            }
+        }
+
+        function showPrevious() {
+            if (complaintIndex > 0) {
+                complaintIndex--;
+                showComplaint(complaintIndex);
+            }
+        }
+
+        showComplaint(complaintIndex);
+    </script>
+</body>
+</html>

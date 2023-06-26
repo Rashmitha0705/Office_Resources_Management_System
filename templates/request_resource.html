@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Resources</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Adjust the styles as needed */
+        body, form {
+            margin-left: 8cm;
+            margin-top: 2cm;
+            margin-top: 4px;
+        }
+        h2 {
+            margin-left: 8cm;
+        }
+    </style>
+</head>
+<body>
+    {% include 'customer.html' %}
+    {% block page_content %}
+    <div class="container">
+        <br>
+        <h2>Request Resources</h2>
+        <form action="/request_resource" method="POST">
+            <div class="form-group">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="need_date" class="form-label">Need Date:</label>
+                <input type="date" class="form-control" name="need_date" id="need_date" required>
+            </div>
+            <div class="form-group">
+                <label for="return_date" class="form-label">Return Date:</label>
+                <input type="date" class="form-control" name="return_date" id="return_date">
+            </div>
+            <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" name="description" id="description" rows="2" cols="50"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="resources" class="form-label">Resources:</label>
+                <input type="text" class="form-control" name="resources" id="resources" required>
+                    
+            </div>
+            <div class="form-group">
+                <label for="quantity" class="form-label">Quantity:</label>
+                <input type="number" class="form-control" name="quantity" id="quantity" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="project_name" class="form-label">Project Name:</label>
+                <input type="text" class="form-control" name="project_name" id="project_name">
+            </div>
+            <div class="form-group">
+                <label for="skills" class="form-label">Skills:</label>
+                <input type="text" class="form-control" name="skills" id="skills">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    {% endblock %}
+</body>
+</html>

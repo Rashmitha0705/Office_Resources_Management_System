@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resource Graphs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+         body,form,h3,.select {
+            font-family: sans-serif;
+            margin-left: 14cm;
+        }
+        .graph-container {
+            display: flex;
+            justify-content: space-around;
+            animation: slideInFromRight 1s;
+        }
+        .graph-container img {
+            width:auto;
+            height: auto;
+            margin: 20px;
+            opacity: 0;
+            animation: fade-in 1s ease-in-out forwards;
+        }
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: 10cm;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <br>
+    <h3>Resource Statistics</h3>
+
+    <div class="select">
+        <label for="graph-select">Select Graph:</label>
+        <select id="graph-select" onchange="selectGraph()">
+            <option value="quantity-graph">Resource Quantity Graph</option>
+            <option value="usage-pie-chart">Total Resource Usage Pie Chart</option>
+        </select>
+    </div>
+
+    <div class="graph-container">
+        <img id="quantity-graph" src="" alt="Resource Quantity Graph" style="width: 800px;">
+        <img id="usage-pie-chart" src="" alt="Total Resource Usage Pie Chart" style="width: 800px; display: none;">
+    </div>
+
+    <h2 style="font-size: 24px;">Overutilized Resources</h2>
+    <table id="overutilized-table" class="table">
+        <thead>
+            <tr>
+                <th>Resource Type</th>
+                <th>Utilization</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2 style="font-size: 24px;">Underutilized Resources</h2>
+    <table id="underutilized-table" class="table">
+        <thead>
+            <tr>
+                <th>Resource Type</th>
+                <th>Utilization</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        function selectGraph() {
+            const selectElement = document.getElementById('graph-select');
+            const selectedGraph = selectElement.value;
+
+            const graphContainer = document.querySelector('.graph-container');
+            const graphImages = graphContainer.querySelectorAll('img');
+
+            graphImages.forEach(image => {
+                if (image.id === selectedGraph) {
+                    image.style.display = 'block';
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to update the graphs and tables
+        function updateGraphsAndTables() {
+            // Fetch the updated graphs and table data from the server
+            fetch('/update_graph')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the quantity graph
+                    document.getElementById('quantity-graph').src = "data:image/png;base64," + data.quantity_graph;
+
+                    // Update the total usage pie chart
+                    document.getElementById('usage-pie-chart').src = "data:image/png;base64," + data.total_usage_pie;
+
+                    // Update the overutilized resources table
+                    const overutilizedTableBody = document.getElementById('overutilized-table').getElementsByTagName('tbody')[0];
+                    overutilizedTableBody.innerHTML = '';
+                    data.overutilized.forEach(resource => {
+                        const row = overutilizedTableBody.insertRow();
+                        row.insertCell().textContent = resource.resource_type;
+                        row.insertCell().textContent = resource.utilization.toFixed(2);
+                    });
+
+                    // Update the underutilized resources table
+                    const underutilizedTableBody = document.getElementById('underutilized-table').getElementsByTagName('tbody')[0];
+                    underutilizedTableBody.innerHTML = '';
+                    data.underutilized.forEach(resource => {
+                        const row = underutilizedTableBody.insertRow();
+                        row.insertCell().textContent = resource.resource_type;
+                        row.insertCell().textContent = resource.utilization.toFixed(2);
+                    });
+
+                    // Update the selected graph based on the current selection
+                    selectGraph();
+                });
+        }
+
+        // Call the updateGraphsAndTables function initially
+        updateGraphsAndTables();
+
+        // Call the updateGraphsAndTables function every 5 seconds to keep the graphs and tables updated
+        setInterval(updateGraphsAndTables, 5000);
+    </script>
+
+     {% endblock %}
+</body>
+</html>

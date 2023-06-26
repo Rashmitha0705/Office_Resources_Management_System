@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/css/adminlte.min.css">
+  <style>.navbar-nav .nav-link:hover {
+    background-color: #e9ecef;
+    /* Replace #e9ecef with the desired hover color */
+  }
+    /* Custom Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .main-content {
+        max-width: 800px;
+        margin: 5px auto;
+      }
+    .wrapper {
+      min-height: 100vh;
+    }
+    
+   
+    .notification {
+      background-color: red;
+      color: #fff;
+      border-radius: 50%;
+      padding: 5px 10px;
+      margin-left: 5px;
+    }
+    
+  </style>
+</head>
+<body class="hold-transition sidebar-mini"
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="{{ url_for('Home') }}" class="nav-link">
+            
+            <p><i class="nav-icon fas fa-sign-out-alt"></i><b>Logout</b></p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-link">
+        <span class="brand-text font-weight-light">Dashboard</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-clipboard"></i>
+                <p>
+                  Requisition
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ url_for('request_resource') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Request Software Resources</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url_for('resource_requests') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Request Office Equipment Resources</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="{{ url_for('my_requisitions') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>My Requisitions</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-exclamation-circle"></i>
+                <p>
+                  Complaints
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ url_for('complaint') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Complaint</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url_for('my_complaints') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>My Complaints</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    
+    <main class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.8.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
+</body>
+</html>

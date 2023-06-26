@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Requisition</title>
+</head>
+<body>
+  <h2>Edit Requisition</h2>
+ 
+  <form method="POST" action="{{ url_for('edit_requisition', id=requisition.id) }}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ requisition.name }}" required>
+    <br>
+    <label for="need_date">Need Date:</label>
+    <input type="text" id="need_date" name="need_date" value="{{ requisition.need_date }}" required>
+    <br>
+    <label for="return_date">Return Date:</label>
+    <input type="text" id="return_date" name="return_date" value="{{ requisition.return_date }}" required>
+    <br>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" value="{{ requisition.description }}" required>
+    <br>
+    <label for="resources">Resources:</label>
+    <input type="text" id="resources" name="resources" value="{{ requisition.resources }}" required>
+    <br>
+    <label for="quantity">Quantity:</label>
+    <input type="text" id="quantity" name="quantity" value="{{ requisition.quantity }}" required>
+    <br>
+    <input type="submit" value="Update">
+  </form>
+  
+</body>
+</html>

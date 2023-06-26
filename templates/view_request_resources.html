@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Resource Requests</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .table-container {
+            animation: fadeInOut 0.5s;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .prev-button {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .next-button {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resource Requests</h1>
+        <a href="/admin_dashboard" class="btn btn-primary mb-3">Dashboard</a>
+        <div id="tableContainer" class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Name</th>
+                        <th>Resource Type</th>
+                        <th>Quantity</th>
+                        
+                        <th>Department</th>
+                        <th>Project</th>
+                        <th>Required Date</th>
+                        <th>Return Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr>
+                        <td>{{ request[0] }}</td>
+                        <td>{{ request[1] }}</td>
+                        <td>{{ request[2] }}</td>
+                        <td>{{ request[3] }}</td>
+                       
+                        <td>{{ request[5] }}</td>
+                        <td>{{ request[6] }}</td>
+                        <td>{{ request[7] }}</td>
+                        <td>{{ request[8] }}</td>
+                        <td>{{ request[9] }}</td>
+                        <td>
+                            {% if request[9] != "Approved" %}
+                            <form action="{{ url_for('approve_request', req_id=request[0]) }}" method="post">
+                                <button type="submit" class="btn btn-primary">Approve</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button id="prevButton" class="btn btn-primary prev-button">&lt; Previous</button>
+            <button id="nextButton" class="btn btn-primary next-button">Next &gt;</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code here
+    </script>
+</body>
+</html>

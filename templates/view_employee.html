@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>View Employees</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      position: fixed;
+      margin-left: 5cm;
+      margin-top: 1cm;
+    }
+
+    .form-group {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"] {
+      width: 150px;
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    button[type="submit"] {
+      margin-top: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+    }
+
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .project-status select {
+      width: 100px;
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .action-buttons button {
+      margin-bottom: 5px;
+      padding: 5px 10px;
+      font-size: 12px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .action-buttons button.update {
+      background-color: #2196F3;
+    }
+
+    .action-buttons button.delete {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Admin Dashboard</a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="text-center">View Employees</h3>
+        <br>
+        <br>
+        <form method="POST" action="{{ url_for('view_employee') }}" class="mb-3">
+          <div class="form-group">
+            <label for="employee_id">Employee ID:</label>
+            <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Enter Employee ID">
+          </div>
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+          </div>
+          <div class="form-group">
+            <label for="project_name">Project Name:</label>
+            <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Enter Project Name">
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Projects</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for employee in employees %}
+              {% if employee.projects %}
+              {% for project in employee.projects %}
+              <tr class="employee_row_{{ employee.id }}">
+                {% if loop.first %}
+                <td rowspan="{{ employee.projects|length }}">{{ employee.name }}</td>
+                <td rowspan="{{ employee.projects|length }}">{{ employee.department.name }}</td>
+                <td rowspan="{{ employee.projects|length }}">{{ employee.designation }}</td>
+                {% endif %}
+                <td>{{ project.project_name }}</td>
+                <td class="project-status">
+                  <select class="form-control" onchange="handleStatusChange(this, '{{ employee.id }}', '{{ project.id }}')">
+                    <option value="Pending" {% if project.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Submitted" {% if project.status == 'Submitted' %}selected{% endif %}>Submitted</option>
+                  </select>
+                </td>
+                {% if loop.first %}
+                <td rowspan="{{ employee.projects|length }}">
+                  <div class="action-buttons">
+                    <form method="GET" action="/update_employee/{{ employee.id }}">
+                      <button type="submit" class="btn btn-primary update">Update</button>
+                    </form>
+                    <form method="POST" action="/delete_employee/{{ employee.id }}">
+                      <button type="submit" class="btn btn-danger delete" onclick="return confirmSuccess()">Delete</button>
+                    </form>
+                  </div>
+                </td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr class="employee_row_{{ employee.id }}">
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.department.name }}</td>
+                <td>{{ employee.designation }}</td>
+                <td>None</td>
+                <td>-</td>
+                <td>
+                  <div class="action-buttons">
+                    <form method="GET" action="/update_employee/{{ employee.id }}">
+                      <button type="submit" class="btn btn-primary update">Update</button>
+                    </form>
+                    <form method="POST" action="/delete_employee/{{ employee.id }}">
+                      <button type="submit" class="btn btn-danger delete" onclick="return confirmSuccess()">Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function confirmSuccess() {
+      return confirm("Do you want to delete the employee?");
+    }
+
+    function updateProjectStatus(employeeId, projectId, status) {
+      if (status === 'Submitted') {
+        // Send a request to delete the project
+        fetch(`/delete_project/${employeeId}/${projectId}`, {
+            method: 'POST'
+          })
+          .then(response => {
+            if (response.ok) {
+              // Remove the project row from the table
+              const row = document.querySelector(`#project_${projectId}`);
+              row.parentNode.removeChild(row);
+
+              // Check if all projects are removed for the employee
+              const projectsCount = document.querySelectorAll(`.project_row_${employeeId}`).length;
+              if (projectsCount === 0) {
+                const employeeRow = document.querySelector(`.employee_row_${employeeId}`);
+                employeeRow.parentNode.removeChild(employeeRow);
+              }
+            } else {
+              console.error('Failed to delete the project.');
+            }
+          })
+          .catch(error => {
+            console.error('An error occurred while deleting the project:', error);
+          });
+      } else {
+        // Send a request to update the project status
+        fetch(`/update_project_status/${projectId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              status: status
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              console.error('Failed to update the project status.');
+            }
+          })
+          .catch(error => {
+            console.error('An error occurred while updating the project status:', error);
+          });
+      }
+    }
+
+    function handleStatusChange(selectElement, employeeId, projectId) {
+      const selectedStatus = selectElement.value;
+      updateProjectStatus(employeeId, projectId, selectedStatus);
+
+      if (selectedStatus === 'Submitted') {
+        // Remove the project row from the table immediately
+        const row = document.querySelector(`#project_${projectId}`);
+        row.parentNode.removeChild(row);
+
+        // Check if all projects are removed for the employee
+        const projectsCount = document.querySelectorAll(`.project_row_${employeeId}`).length;
+        if (projectsCount === 0) {
+          const employeeRow = document.querySelector(`.employee_row_${employeeId}`);
+          employeeRow.parentNode.removeChild(employeeRow);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    .container,form{
+        margin-left: 10cm;
+    }
+    h3{
+        margin-left: 10cm;
+        text-align: center;
+    }
+</style>
+<body>
+    <br>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <div class="container">
+        <h3>Add New Project</h3>
+
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <label for="project_name">Project Name:</label>
+                <input type="text" id="project_name" name="project_name" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="objectives">Objectives:</label>
+                <input type="text" id="objectives" name="objectives" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="start_time">Start Time:</label>
+                <input type="date" id="start_time" name="start_time" required class="form-control">
+                <label for="deadlines">Deadlines:</label>
+                <input type="date" id="deadlines" name="deadlines" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="equipment_resources">Equipment Resources:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="equipment_checkbox1" name="equipment_resources[]" value="Equipment 1">
+                    <label class="form-check-label" for="equipment_checkbox1">Laptop</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="equipment_checkbox2" name="equipment_resources[]" value="Equipment 2">
+                    <label class="form-check-label" for="equipment_checkbox2">Development Servers</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="equipment_checkbox3" name="equipment_resources[]" value="Equipment 3">
+                    <label class="form-check-label" for="equipment_checkbox3">Networking Equipment</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="equipment_checkbox4" name="equipment_resources[]" value="Equipment 4">
+                    <label class="form-check-label" for="equipment_checkbox4">Peripherals</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="equipment_checkbox5" name="equipment_resources[]" value="Equipment 5">
+                    <label class="form-check-label" for="equipment_checkbox5">Testing Devices</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="software_resources">Software Resources:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="software_checkbox1" name="software_resources[]" value="Software 1">
+                    <label class="form-check-label" for="software_checkbox1">Software 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="software_checkbox2" name="software_resources[]" value="Software 2">
+                    <label class="form-check-label" for="software_checkbox2">Software 2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="software_checkbox3" name="software_resources[]" value="Software 3">
+                    <label class="form-check-label" for="software_checkbox3">License 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="software_checkbox4" name="software_resources[]" value="Software 4">
+                    <label class="form-check-label" for="software_checkbox4">License 2</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="skill_requirements">Skill Requirements:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="skill_checkbox1" name="skill_requirements[]" value="Skill 1">
+                    <label class="form-check-label" for="skill_checkbox1">Front-end</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="skill_checkbox2" name="skill_requirements[]" value="Skill 2">
+                    <label class="form-check-label" for="skill_checkbox2">Backend</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="skill_checkbox3" name="skill_requirements[]" value="Skill 3">
+                    <label class="form-check-label" for="skill_checkbox3">DBMS</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="skill_checkbox4" name="skill_requirements[]" value="Skill 4">
+                    <label class="form-check-label" for="skill_checkbox4">Cloud Computing</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="skill_checkbox5" name="skill_requirements[]" value="Skill 5">
+                    <label class="form-check-label" for="skill_checkbox5">Machine Learning</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget" name="budget" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" onclick="return confirmSuccess()" class="btn btn-primary">Add</button>
+            </div>
+
+            <!-- Hidden input fields to store converted checkbox values -->
+            <input type="hidden" id="equipment_resources" name="equipment_resources">
+            <input type="hidden" id="software_resources" name="software_resources">
+            <input type="hidden" id="skill_requirements" name="skill_requirements">
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function confirmSuccess() {
+            // Retrieve the selected checkboxes
+            const equipmentCheckboxes = document.querySelectorAll('input[name="equipment_resources[]"]:checked');
+            const softwareCheckboxes = document.querySelectorAll('input[name="software_resources[]"]:checked');
+            const skillCheckboxes = document.querySelectorAll('input[name="skill_requirements[]"]:checked');
+
+            // Convert checkbox values to a comma-separated string
+            const equipmentValues = Array.from(equipmentCheckboxes).map(checkbox => checkbox.value).join(",");
+            const softwareValues = Array.from(softwareCheckboxes).map(checkbox => checkbox.value).join(",");
+            const skillValues = Array.from(skillCheckboxes).map(checkbox => checkbox.value).join(",");
+
+            // Set the converted values to the hidden input fields
+            document.getElementById("equipment_resources").value = equipmentValues;
+            document.getElementById("software_resources").value = softwareValues;
+            document.getElementById("skill_requirements").value = skillValues;
+
+            // Return true to submit the form
+            return true;
+        }
+    </script>
+    {% endblock%}
+</body>
+</html>

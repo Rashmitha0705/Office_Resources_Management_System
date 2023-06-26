@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Resource</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body,
+        form,
+        h2 {
+            margin-left: 10cm;
+            margin-top: 1cm;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex-basis: 120px;
+            flex-shrink: 0;
+        }
+
+        form {
+            max-width: fit-content;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    <div class="container">
+        <h2>Add Resource</h2>
+        
+        <form method="POST" action="{{ url_for('index_resources') }}">
+            <div class="form-group">
+                <label for="resource_type">Resource Type:</label>
+                <input type="text" name="resource_type" id="resource_type" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="floor">Floor:</label>
+                <select type="text" id="floor" name="floor" class="form-control" onchange="populateRooms()" required>
+                    <option value="">Select a floor</option>
+                    <option value="GF">GF</option>
+                    <option value="1F">1F</option>
+                    <option value="2F">2F</option>
+                    <option value="3F">3F</option>
+                    <option value="4F">4F</option>
+                    <option value="5F">5F</option>
+                </select>
+                <label for="room">Room:</label>
+                <select type="text" id="room" name="room" class="form-control" required>
+                    <option value="">Select a room</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement" type="button">-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control" required>
+                    <button class="btn btn-outline-secondary increment" type="button">+</button>
+                </div>
+                <label for="availability">Availability:</label>
+                <input type="number" name="availability" id="availability" class="form-control"
+                    onchange="populateRooms()">
+            </div>
+            <div class="form-group">
+                
+                <label for="condition">Condition:</label>
+                <select id="condition" name="condition" class="form-control">
+                    <option value="New">New</option>
+                    <option value="Damaged">Damaged</option>
+                    <option value="Used">Used</option>
+                </select>
+                <label for="maintenance_history">Maintenance Status:</label>
+                <select id="maintenance_history" name="maintenance_history" class="form-control">
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="last_maintenance_date">Last Maintenance Date:</label>
+                <input type="date" name="last_maintenance_date" id="last_maintenance_date" class="form-control"
+                    required>
+                <label for="next_maintenance_date">Next Maintenance Date:</label>
+                <input type="date" name="next_maintenance_date" id="next_maintenance_date" class="form-control"
+                    required>
+               
+            </div>
+            <div class="form-group">
+                 <label for="total_usage">Total Usage:</label>
+                <input type="number" name="total_usage" id="total_usage" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Resource" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function populateRooms() {
+            var floor = document.getElementById("floor").value;
+            var roomDropdown = document.getElementById("room");
+            roomDropdown.innerHTML = "";
+
+            if (floor === "") {
+                var defaultOption = document.createElement("option");
+                defaultOption.text = "Select a room";
+                roomDropdown.add(defaultOption);
+                return;
+            }
+
+            var numRooms = 5; // Change this to the number of rooms per floor
+
+            for (var i = 1; i <= numRooms; i++) {
+                var roomOption = document.createElement("option");
+                roomOption.value = floor + i;
+                roomOption.text = floor + i;
+                roomDropdown.add(roomOption);
+            }
+        }
+
+        document.querySelector(".increment").addEventListener("click", function () {
+            document.querySelector("#quantity").stepUp(1);
+        });
+
+        document.querySelector(".decrement").addEventListener("click", function () {
+            document.querySelector("#quantity").stepDown(1);
+        });
+    </script>
+</body>
+
+</html>

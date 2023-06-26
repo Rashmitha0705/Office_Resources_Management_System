@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resource Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='myfont/css/all.min.css')}}">
+    <style>
+        /* Customize the background and fonts */
+        body {
+            background-color: #F2F2F2;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Set the logo and company name styles */
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+        }
+
+        .company-name {
+            text-align: center;
+            font-size: 30px;
+            margin-top: 30px;
+        }
+
+        /* Set the container styles */
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            box-shadow: 3px 3px 10px black;
+            background-color: #FFFFFF;
+        }
+
+        /* Set the button styles */
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-btn {
+            background-color: #33CC99;
+            color: #FFFFFF;
+        }
+
+        .admin-btn {
+            background-color: #1A75FF;
+            color: #FFFFFF;
+        }
+
+        /* Set the footer styles */
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #F2F2F2;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Add animation styles */
+        .btn-container {
+            animation: buttonFade 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes buttonFade {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Set the logo and company name -->
+    <h1 class="company-name">Resource Management System</h1>
+
+    <!-- Set the container for the login buttons -->
+    <div class="container">
+        <h3 class="text-primary">Login as:</h3>
+        <div class="btn-container">
+            <a href="{{url_for('register')}}" class="btn user-btn">Employee</a>
+            <a href="{{url_for('admin_login')}}" class="btn admin-btn">Resource Manager</a>
+        </div>
+    </div>
+
+    <!-- Set the footer with company information -->
+    <div class="footer">
+        <p>&copy; 2023 Company Name. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

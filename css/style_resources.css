@@ -1,0 +1,57 @@
+/* static/style.css */
+
+body {
+    font-family: sans-serif;
+  
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin: 0 auto;
+    width: 400px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.quantity button {
+    font-size: 16px;
+    padding: 5px;
+    width: 30px;
+}
+
+.quantity input {
+    font-size: 16px;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+.flash {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.flash li {
+    color: green;
+}

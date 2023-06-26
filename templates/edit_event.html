@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Event Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body, form, h3 {
+            margin-left: 12cm;
+            margin-top: 1cm;
+        }
+
+        form {
+            margin: auto;
+            width: 30%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            width: 400px;
+        }
+
+        .alert-error {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            flex: 1;
+            margin-bottom: 5px;
+            margin: 4px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            flex: 2;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: darkgreen;
+        }
+
+        .alert-danger {
+            color: red;
+        }
+    </style>
+    <script>
+        // Function to display the alert messages
+        function displayAlert(type, message) {
+            var alertDiv = document.getElementById('alert-messages');
+            var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            var alertHtml = '<div class="alert ' + alertClass + '">' + message + '</div>';
+            alertDiv.innerHTML = alertHtml;
+
+            // Display the alert as a JavaScript alert message
+            alert(message);
+        }
+
+        // Function to remove the alert messages after a certain duration
+        function removeAlert() {
+            var alertDiv = document.getElementById('alert-messages');
+            alertDiv.innerHTML = '';
+        }
+
+        // Check if there are any alert messages and display them
+        window.addEventListener('DOMContentLoaded', function () {
+            var alertDiv = document.getElementById('alert-messages');
+            if (alertDiv.innerHTML !== '') {
+                // Get the alert type and message
+                var alertType = alertDiv.firstChild.classList.contains('alert-success') ? 'success' : 'error';
+                var alertMessage = alertDiv.firstChild.innerHTML;
+
+                // Display the alert
+                displayAlert(alertType, alertMessage);
+
+                // Remove the alert after 5 seconds
+                setTimeout(removeAlert, 5000);
+            }
+        });
+    </script>
+</head>
+<body>
+{% include 'admin_dashboard.html' %}
+{% block content %}
+<br>
+<h3>Edit Event Details</h3>
+<div id="alert-messages"></div>
+
+<form method="post">
+    <div class="form-group">
+        <label for="room_number">Room Number:</label>
+        <select name="room_number" id="room_number">
+            <option value="Room 1">Room 1</option>
+            <option value="Room 2">Room 2</option>
+            <option value="Room 3">Room 3</option>
+            <option value="Room 4">Room 4</option>
+            <option value="Room 5">Room 5</option>
+            <option value="Room 6">Room 6</option>
+            <option value="Room 7">Room 7</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" class="form-control" id="start_time" name="start_time" required>
+    </div>
+    <div class="form-group">
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" class="form-control" id="end_time" name="end_time" required>
+    </div>
+    <div class="form-group">
+        <label for="event_type">Event Type:</label>
+        <select id="event_type" name="event_type">
+            <option value="meeting">Meeting</option>
+            <option value="presentation">Presentation</option>
+            <option value="Training">Training</option>
+            <option value="seminar">Seminar</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea class="form-control" id="content" name="content" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+{% endblock %}
+</body>
+</html>

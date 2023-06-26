@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Requisitions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 2rem;
+            margin-left: 10cm;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        .requisition-table {
+            width: 75%;
+            border-collapse: collapse;
+            margin-left: 10cm;
+            margin-top: 2px;
+            display: none;
+        }
+
+        .requisition-table th,
+        .requisition-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .requisition-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .requisition-table a {
+            text-decoration: none;
+        }
+
+        .requisition-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-approve {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            
+        }
+
+        .pagination-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            margin-right:0.5rem ;
+        }
+
+        .admin-dashboard {
+            margin-bottom: 3rem;
+        }
+    </style>
+</head>
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+                <li class="flash-message">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+        <div class="container">
+           
+            {% set index = 0 %}
+            {% for requisition in requisitions %}
+                <table class="requisition-table" id="requisition-table-{{ index }}">
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ requisition['id'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ requisition['name'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Need Date</th>
+                        <td>{{ requisition['need_date'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Return Date</th>
+                        <td>{{ requisition['return_date'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Resources</th>
+                        <td>{{ requisition['resources'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Project Name</th>
+                        <td>{{ requisition['project_name'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Skills</th>
+                        <td>{{ requisition['skills'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ requisition['status'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Action</th>
+                        <td class="requisition-actions">
+                            <a href="{{ url_for('approve_requisition', id=requisition['id']) }}" class="btn btn-success">Approve</a>
+                            <a href="{{ url_for('reject_requisition', id=requisition['id']) }}" class="btn btn-danger" onclick="deleteRequisition(this)">Reject</a>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                {% set index = index + 1 %}
+            {% endfor %}
+            <div class="pagination" style="margin-left: 10cm;">
+                <button class="pagination-button" onclick="showPreviousTable()">&lt;</button>
+                <button class="pagination-button" onclick="showNextTable()">&gt;</button>
+                
+            </div>
+            
+        </div>
+        
+    {% endblock %}
+
+    <script>
+        var currentPage = 0;
+        var tables = document.querySelectorAll('.requisition-table');
+
+        function showTable(index) {
+            for (var i = 0; i < tables.length; i++) {
+                if (i === index) {
+                    tables[i].style.display = 'table';
+                } else {
+                    tables[i].style.display = 'none';
+                }
+            }
+        }
+
+        function showPreviousTable() {
+            currentPage--;
+            if (currentPage < 0) {
+                currentPage = 0;
+            }
+            showTable(currentPage);
+        }
+
+        function showNextTable() {
+            currentPage++;
+            if (currentPage >= tables.length) {
+                currentPage = tables.length - 1;
+            }
+            showTable(currentPage);
+        }
+
+        function deleteRequisition(element) {
+            var table = element.closest('.requisition-table');
+            table.remove();
+            tables = document.querySelectorAll('.requisition-table');
+            if (currentPage >= tables.length) {
+                currentPage = tables.length - 1;
+            }
+            showTable(currentPage);
+        }
+
+        showTable(currentPage);
+    </script>
+</body>
+</html>

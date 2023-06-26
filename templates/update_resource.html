@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Resource</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    form{
+        max-width: fit-content;
+    }
+    body, form, h3 {
+        margin-left: 10cm;
+    }
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .form-row .form-group {
+        flex-basis: 45%;
+    }
+</style>
+<body>
+    {% include 'admin_dashboard.html' %}
+    {% block content %}
+
+    <div class="container">
+        <h3>Update Resource</h3>
+        <form action="" method="post">
+            <input type="hidden" name="id" value="{{ details[0] }}">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="floor">Floor:</label>
+                    <input type="text" id="floor" name="floor" value="{{ details[2] }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="text" id="quantity" name="quantity" value="{{ details[4] }}" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="availability">Availability:</label>
+                    <input type="text" id="availability" name="availability" value="{{ details[5] }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="condition">Condition:</label>
+                    <select id="condition" name="condition" class="form-control">
+                        <option value="New" {% if details[6] == 'New' %}selected{% endif %}>New</option>
+                        <option value="Used" {% if details[6] == 'Used' %}selected{% endif %}>Used</option>
+                        <option value="Damaged" {% if details[6] == 'Damaged' %}selected{% endif %}>Damaged</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maintenance_history">Maintenance History:</label>
+                    <select id="maintenance_history" name="maintenance_history" class="form-control">
+                        <option value="Scheduled" {% if details[7] == 'Scheduled' %}selected{% endif %}>Scheduled</option>
+                        <option value="In Progress" {% if details[7] == 'In Progress' %}selected{% endif %}>In Progress</option>
+                        <option value="Completed" {% if details[7] == 'Completed' %}selected{% endif %}>Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="last_maintenance_date">Last Maintenance Date:</label>
+                    <input type="text" id="last_maintenance_date" name="last_maintenance_date" value="{{ details[8] }}" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="next_maintenance_date">Next Maintenance Date:</label>
+                    <input type="text" id="next_maintenance_date" name="next_maintenance_date" value="{{ details[9] }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="total_usage">Total Usage:</label>
+                    <input type="text" id="total_usage" name="total_usage" value="{{ details[10] }}" class="form-control">
+                </div>
+            </div>
+
+            <input type="submit" value="Update" class="btn btn-primary">
+        </form>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+    {% endblock %}
+</body>
+</html>
